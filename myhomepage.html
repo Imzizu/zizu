@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ChatGPT Text Rephrasing</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        textarea { width: 500px; height: 150px; padding: 10px; }
+        button { padding: 10px 20px; background-color: #4CAF50; color: white; border: none; }
+    </style>
+</head>
+<body>
+    <h1>Text Rephrasing with ChatGPT</h1>
+
+    <textarea id="userTextInput" placeholder="Enter your text here"></textarea>
+    <button onclick="rephraseText()">Rephrase</button>
+
+    <div id="rephrasedOutput"></div>
+
+    <script>
+        const apiKey = "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"; // Replace with your actual API Key
+
+        function rephraseText() {
+            const textInput = document.getElementById("userTextInput").value;
+
+            fetch('https://api.openai.com/v1/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify({
+                    model: "text-davinci-003", // Or another suitable model
+                    prompt: `Rephrase this text in a different way: ${textInput}`,
+                    max_tokens: 100,  // Adjust for desired output length
+                    // ...other optional parameters
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("rephrasedOutput").textContent = data.choices[0].text;
+            })
+            .catch(error => console.error("Error:", error)); 
+        }
+    </script>
+</body>
+</html>
